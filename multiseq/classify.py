@@ -95,12 +95,11 @@ def classify_by_sweep(adata, return_calls=True, return_proportions=False):
     # from these, create a dataframe of proportions
     cols = ["q", "negative", "singlet", "multiplet"]
     sweep_props = pd.DataFrame(sweep_props, columns=cols)
-    sweep_props /= sweep_props.sum(axis=1)
     sweep_long = pd.melt(sweep_props, id_vars="q")
-    sweep_long.columns = ["subset", "n_cells"]
+    sweep_long.columns = ["q", "subset", "n_cells"]
     sweep_long["proportion"] = sweep_long["n_cells"] / n_cells
 
-    maxima = find_peaks(sweep_long.loc[sweep_long.subset == "singlet", "proportion"])[0]
+    maxima = find_peaks(sweep_long.loc[sweep_long.subset == "singlet", "proportion"])[0][0]
     optimal_q = qs[maxima]
     optimal_calls = sweep_calls[optimal_q]
 
