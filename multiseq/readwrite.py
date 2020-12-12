@@ -9,8 +9,12 @@ from scanpy.readwrite import read_mtx
 
 def load_citeseq_count_matrix(path: Union[Path, str]) -> AnnData:
     raw_tags = read_mtx(path / "matrix.mtx.gz").T
-    raw_tags.var = pd.read_csv(path / "features.tsv.gz", header=None, index_col=0)
-    raw_tags.obs = pd.read_csv(path / "barcodes.tsv.gz", header=None, index_col=0)
+    var = pd.read_csv(path / "features.tsv.gz", header=None, index_col=0)
+    var.index.name = None
+    raw_tags.var = var
+    obs = pd.read_csv(path / "barcodes.tsv.gz", header=None, index_col=0)
+    obs.index.name = None
+    raw_tags.obs = obs
     raw_tags = raw_tags[:, ~raw_tags.var_names.isin(["unmapped"])]
     return raw_tags
 
@@ -45,7 +49,7 @@ def intersect_gex_and_tags(gex: AnnData, tags: AnnData, truth="gex"):
         missing_bcs = gex.obs_names.difference(tags.obs_names)
         if len(missing_bcs) > 0:
             missing_adata = AnnData(
-                np.zeros((len(missing_bcs), gex.shape[1])),
+                np.zeros((len(missing_bcs), tags.shape[1])),
                 var=tags.var,
                 obs=pd.DataFrame(index=missing_bcs)
             )
