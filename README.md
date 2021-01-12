@@ -1,10 +1,17 @@
 # MULTIseq-py
 
-This is a Python reimplementation of the [deMULTIplex][demultiplex] tool written by 
-[Chris McGinnis][mcginnis].  This reimplementation has two design goals:
+This is a Python reimplementation of the [deMULTIplex][demultiplex] tool written by
+[Chris McGinnis][mcginnis] accompanying his [paper][mcginnis-paper]:
 
+> McGinnis CS, Patterson DM, Winkler J, Conrad DN, Hein MY, Srivastava V, Hu JL,
+> Murrow LM, Weissman JS, Werb Z, Chow ED, Gartner ZJ. MULTI-seq: sample
+> multiplexing for single-cell RNA sequencing using lipid-tagged indices. Nat
+> Methods. 2019 Jul;16(7):619-626. doi: 10.1038/s41592-019-0433-8. Epub 2019 Jun
+> 17. PMID: 31209384; PMCID: PMC6837808.
+
+This reimplementation has two design goals:
 - easy reading of demultiplexed data generated with [CITE-Seq-count][citeseq-count]
-- seemless integratation with the [Scanpy][scanpy] ecosystem 
+- seemless integratation with the [Scanpy][scanpy] ecosystem
 
 ## Installation
 
@@ -54,8 +61,8 @@ tags.obs["global_call"].head()
 Lastly, here's the quantile sweep functionality:
 ```{python}
 optimal_q, optimal_calls = multiseq.classify_by_sweep(
-    tags, 
-    return_calls=True, 
+    tags,
+    return_calls=True,
     return_proportions=False
 )
 
@@ -71,8 +78,8 @@ keyword above:
 import seaborn as sns
 
 optimal_q, optimal_calls, call_proportions = multiseq.classify_by_sweep(
-    tags, 
-    return_calls=True, 
+    tags,
+    return_calls=True,
     return_proportions=True
 )
 
@@ -84,12 +91,20 @@ sns.lineplot(
 )
 ```
 
+## License
+
+Using the MIT license.  If there is an issue with licensing, please let me know!
+And see [the licensing discussion here][demultiplex-issue].
+
+
 ## Contributing and Help
 
 Any help making this code better is appeciated.  Please open an issue or PR!
 
 
 [demultiplex]: https://github.com/chris-mcginnis-ucsf/MULTI-seq
+[demultiplex-issue]: https://github.com/chris-mcginnis-ucsf/MULTI-seq/issues/20
 [mcginnis]: https://github.com/chris-mcginnis-ucsf
 [scanpy]: https://github.com/theislab/scanpy
 [citeseq-count]: https://github.com/Hoohm/CITE-seq-Count
+[mcginnis-paper]: https://pubmed.ncbi.nlm.nih.gov/31209384/
