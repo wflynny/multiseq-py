@@ -8,6 +8,7 @@ from scanpy.readwrite import read_mtx
 
 
 def load_citeseq_count_matrix(path: Union[Path, str]) -> AnnData:
+    path = Path(path)
     raw_tags = read_mtx(path / "matrix.mtx.gz").T
     var = pd.read_csv(path / "features.tsv.gz", header=None, index_col=0)
     var.index.name = None
@@ -53,7 +54,7 @@ def intersect_gex_and_tags(gex: AnnData, tags: AnnData, truth="gex"):
                 var=tags.var,
                 obs=pd.DataFrame(index=missing_bcs)
             )
-            return gex, tags[common_bcs, :].concatenate(
+            return gex, tags[common_bcs, :].copy().concatenate(
                 missing_adata,
                 index_unique=None,
                 batch_key="original_barcode"
