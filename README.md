@@ -27,14 +27,14 @@ Load in tag-counts from CITE-Seq-count
 import multiseq
 import scanpy as sc
 
-tags = multiseq.load_cite_seq_matrix("path/to/umi_count")
+tags = multiseq.load_citeseq_count_matrix("path/to/umi_count")
 ```
 
 If you want to intersect the tag data with corresponding gene expression data,
 we've tried to make that easier
 
 ```{python}
-gex = sc.load_10x_h5("path/to/gex_library/filtered_feature_bc_matrix.h5")
+gex = sc.read_10x_h5("path/to/gex_library/filtered_feature_bc_matrix.h5")
 
 # Make sure barcodes are compatible (adds '-1' to tag bcs)
 multiseq.harmonize_barcodes(gex, tags, action="extend")
