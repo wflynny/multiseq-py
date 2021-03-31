@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from scipy.sparse import issparse
 from scipy.stats import gaussian_kde
 from scipy.signal import find_peaks
 
@@ -11,7 +12,9 @@ def classify_cells(adata, q, inplace=True):
     if inplace:
         adata.layers["raw"] = adata.X.copy()
 
-    X = adata.X.copy().todense()
+    X = adata.X.copy()
+    if issparse(X):
+        X = X.todense()
     X = np.log2(X + 1) - 1
     X[np.where(X < 0)] = 0
     means = np.mean(X, axis=0)
